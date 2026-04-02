@@ -1,5 +1,26 @@
 @import "tailwindcss";
 
+@theme inline {
+  --font-sans: 'Nunito', 'Nunito Fallback', sans-serif;
+  --color-soft-pink: #FFE4EC;
+  --color-soft-peach: #FFF0E6;
+  --color-soft-mint: #E8F8F5;
+  --color-soft-lavender: #F0E6FF;
+  --color-soft-sky: #E6F4FF;
+  --color-soft-cream: #FFFBF0;
+  --color-pop-coral: #FF7B7B;
+  --color-pop-teal: #5ECFCF;
+  --color-pop-purple: #9B8CFF;
+  --color-pop-gold: #FFD166;
+  --color-surface: #FFF8FA;
+  --color-surface-alt: #FFF5F8;
+  --radius-soft: 1.5rem;
+  --radius-pill: 9999px;
+  --shadow-soft: 0 4px 20px -4px rgba(255, 150, 180, 0.25);
+  --shadow-pop: 0 8px 30px -6px rgba(255, 123, 123, 0.35);
+  --shadow-glow: 0 0 20px 4px rgba(255, 123, 123, 0.2);
+}
+
 @keyframes pulse-piece {
   0%, 100% { transform: translate(-50%, -50%) scale(1); }
   50% { transform: translate(-50%, -50%) scale(1.15); }
@@ -14,4 +35,22 @@
   0%, 100% { transform: scale(1) rotate(0deg); }
   25% { transform: scale(1.2) rotate(-5deg); }
   75% { transform: scale(1.2) rotate(5deg); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes pop-in {
+  0% { transform: scale(0.8); opacity: 0; }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+body {
+  background: linear-gradient(135deg, var(--color-soft-pink) 0%, var(--color-soft-peach) 50%, var(--color-soft-cream) 100%);
+  min-height: 100vh;
 }
