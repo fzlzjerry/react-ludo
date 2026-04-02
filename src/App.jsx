@@ -5,16 +5,16 @@ import { useState, useRef, useCallback, useEffect } from 'react';
 const BOARD_SIZE = 600;
 
 const COLORS_ORIGINAL = {
-  red: { main: '#FF7B7B', light: '#FFE4EC', dark: '#E85A5A', emoji: '🔴', name: 'Red' },
-  yellow: { main: '#FFD166', light: '#FFF8E6', dark: '#F5B830', emoji: '🟡', name: 'Yellow' },
-  blue: { main: '#7BCFFF', light: '#E6F7FF', dark: '#5ABDE8', emoji: '🔵', name: 'Blue' },
-  green: { main: '#7BE8A0', light: '#E6FFF0', dark: '#5AD17D', emoji: '🟢', name: 'Green' },
+  red: { main: '#ef4444', light: '#fef2f2', dark: '#dc2626', emoji: '🔴', name: 'Red' },
+  yellow: { main: '#f59e0b', light: '#fefce8', dark: '#d97706', emoji: '🟡', name: 'Yellow' },
+  blue: { main: '#6366f1', light: '#eef2ff', dark: '#4f46e5', emoji: '🔵', name: 'Blue' },
+  green: { main: '#14b8a6', light: '#f0fdfa', dark: '#0d9488', emoji: '🟢', name: 'Green' },
 };
 const COLORS_ANIMALS = {
-  red: { main: '#FF7B7B', light: '#FFE4EC', dark: '#E85A5A', emoji: '🦁', name: 'Red Lion' },
-  blue: { main: '#7BCFFF', light: '#E6F7FF', dark: '#5ABDE8', emoji: '🐯', name: 'Blue Tiger' },
-  yellow: { main: '#FFD166', light: '#FFF8E6', dark: '#F5B830', emoji: '🐼', name: 'Yellow Panda' },
-  green: { main: '#7BE8A0', light: '#E6FFF0', dark: '#5AD17D', emoji: '🐘', name: 'Green Elephant' },
+  red: { main: '#ef4444', light: '#fef2f2', dark: '#dc2626', emoji: '🦁', name: 'Red Lion' },
+  blue: { main: '#6366f1', light: '#eef2ff', dark: '#4f46e5', emoji: '🐯', name: 'Blue Tiger' },
+  yellow: { main: '#f59e0b', light: '#fefce8', dark: '#d97706', emoji: '🐼', name: 'Yellow Panda' },
+  green: { main: '#14b8a6', light: '#f0fdfa', dark: '#0d9488', emoji: '🐘', name: 'Green Elephant' },
 };
 
 const ALL_COLORS = ['red', 'yellow', 'blue', 'green'];
@@ -734,62 +734,53 @@ export default function App() {
 
     return (
       <div 
-        className={`rounded-[1.5rem] p-5 min-w-[170px] text-center transition-all duration-500 ease-out backdrop-blur-sm
-          ${isActive ? 'opacity-100 scale-105 animate-[float_3s_ease-in-out_infinite]' : 'opacity-60 scale-100 pointer-events-none'}`}
+        className={`rounded-2xl p-4 min-w-[170px] text-center transition-all duration-200
+          ${isActive ? 'opacity-100' : 'opacity-50 pointer-events-none'}`}
         style={{
-          background: isActive 
-            ? `linear-gradient(145deg, ${info.light} 0%, white 100%)` 
-            : 'linear-gradient(145deg, #FFF8FA 0%, #FFFFFF 100%)',
-          border: `3px solid ${isActive ? info.main : '#E8E8E8'}`,
-          boxShadow: isActive 
-            ? `0 12px 40px -8px ${info.main}40, 0 4px 12px -2px ${info.main}30`
-            : '0 4px 20px -4px rgba(0,0,0,0.08)',
+          background: '#fff',
+          border: isActive ? `2px solid ${info.main}` : '1px solid #e5e5e5',
+          boxShadow: '0 1px 2px 0 rgba(0,0,0,0.05)',
         }}>
-        <h3 className="text-sm font-extrabold mb-1" style={{ color: info.main }}>{t(`${color}Player`)}</h3>
-        <div className="text-xs text-gray-400 mb-2 font-semibold">{isHuman ? `👤 ${t('human')}` : `🤖 ${t('ai')}`}</div>
+        <h3 className="text-sm font-semibold mb-1" style={{ color: isActive ? info.main : '#525252' }}>{t(`${color}Player`)}</h3>
+        <div className="text-xs text-gray-500 mb-2">{isHuman ? t('human') : t('ai')}</div>
         <div 
-          className={`w-18 h-18 mx-auto rounded-2xl flex items-center justify-center text-4xl font-bold my-3
+          className={`mx-auto rounded-xl flex items-center justify-center text-3xl font-bold my-3
             ${rollingColor === color ? 'animate-[dice-roll_0.5s_ease-in-out]' : ''}`}
           style={{ 
-            background: 'white',
-            border: `3px solid ${info.main}`,
+            background: '#fff',
+            border: `1px solid #e5e5e5`,
             color: info.main,
-            boxShadow: `inset 0 2px 8px ${info.light}, 0 4px 12px -4px ${info.main}30`,
-            width: '72px',
-            height: '72px',
+            width: '64px',
+            height: '64px',
           }}>
           {diceValue > 0 && activePlayers[currentPlayerIndex] === color ? DICE_FACES[diceValue - 1] : '🎲'}
         </div>
         <button
-          className={`w-full py-2.5 rounded-full text-white font-bold text-sm transition-all duration-300
-            ${isActive && !diceRolled && isHuman ? 'cursor-pointer hover:-translate-y-1 hover:shadow-xl active:scale-95' : '!bg-gray-200 !cursor-not-allowed !text-gray-400'}`}
-          style={isActive && !diceRolled && isHuman ? { 
-            background: `linear-gradient(135deg, ${info.main}, ${info.dark})`,
-            boxShadow: `0 6px 20px -4px ${info.main}60`,
-          } : {}}
+          className={`w-full py-2 rounded-xl text-white font-semibold text-sm transition-all duration-200
+            ${isActive && !diceRolled && isHuman ? 'cursor-pointer hover:opacity-90 active:scale-[0.98]' : 'cursor-not-allowed'}`}
+          style={{ 
+            background: isActive && !diceRolled && isHuman ? info.main : '#e5e5e5',
+            color: isActive && !diceRolled && isHuman ? '#fff' : '#a3a3a3',
+          }}
           disabled={!isActive || diceRolled || !isHuman}
           onClick={() => doRollDice(color)}>
           {t('rollDice')}
         </button>
-        <div className="flex gap-1.5 justify-center mt-3">
+        <div className="flex gap-1 justify-center mt-3">
           {pieces[color].map((p, i) => (
             <span key={i} 
-              className="w-6 h-6 rounded-full inline-flex items-center justify-center text-[10px] font-bold text-white transition-all duration-300"
+              className="w-5 h-5 rounded-full inline-flex items-center justify-center text-[9px] font-bold text-white"
               style={{ 
-                background: p.finished 
-                  ? 'linear-gradient(135deg, #FFD166, #F5B830)' 
-                  : `linear-gradient(135deg, ${info.main}, ${info.dark})`,
+                background: p.finished ? '#f59e0b' : info.main,
                 opacity: p.position === -1 && !p.finished ? 0.4 : 1,
-                boxShadow: p.finished ? '0 2px 8px rgba(255,209,102,0.5)' : `0 2px 6px ${info.main}40`,
-                border: '2px solid white',
               }}>
-              {p.finished ? '★' : p.position > -1 ? '◆' : '●'}
+              {p.finished ? '✓' : p.position > -1 ? '◆' : '●'}
             </span>
           ))}
         </div>
-        <div className="mt-3 text-xs flex gap-3 justify-center font-semibold">
-          <span className="text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded-full">✓ {quizStats[color].right}</span>
-          <span className="text-rose-400 bg-rose-50 px-2 py-0.5 rounded-full">✗ {quizStats[color].wrong}</span>
+        <div className="mt-2 text-xs flex gap-2 justify-center">
+          <span className="text-green-600">✓{quizStats[color].right}</span>
+          <span className="text-red-500">✗{quizStats[color].wrong}</span>
         </div>
       </div>
     );
@@ -799,29 +790,24 @@ export default function App() {
   if (phase === 'select') {
     return (
       <div className="fixed inset-0 flex items-center justify-center z-[2000]" 
-        style={{ background: 'linear-gradient(135deg, #FFE4EC 0%, #FFF0E6 50%, #FFFBF0 100%)' }}>
-        <div className="animate-[pop-in_0.5s_ease-out] p-10 max-w-lg text-center"
+        style={{ background: '#faf9f7' }}>
+        <div className="p-8 max-w-md w-full text-center"
           style={{
-            background: 'linear-gradient(145deg, #FFFFFF 0%, #FFF8FA 100%)',
-            borderRadius: '2.5rem',
-            border: '3px solid #FFB8D0',
-            boxShadow: '0 20px 60px -12px rgba(255, 150, 180, 0.3), 0 8px 24px -8px rgba(255, 123, 123, 0.2)',
+            background: '#fff',
+            borderRadius: '1rem',
+            border: '1px solid #e5e5e5',
+            boxShadow: '0 1px 2px 0 rgba(0,0,0,0.05)',
           }}>
-          <h2 className="text-4xl font-extrabold mb-2" 
-            style={{ 
-              background: 'linear-gradient(135deg, #FF7B7B, #FFD166)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}>{t('gameTitle')}</h2>
-          <p className="mb-6 text-gray-400 font-semibold">{t('selectPlayers')}</p>
+          <h2 className="text-2xl font-bold mb-2 text-black">{t('gameTitle')}</h2>
+          <p className="mb-6 text-gray-500 text-sm">{t('selectPlayers')}</p>
 
-          <div className="p-5 rounded-2xl mb-5" style={{ background: '#FFF5F8', border: '2px solid #FFE4EC' }}>
-            <h3 className="font-bold text-sm mb-3 text-gray-600">{t('settings')}</h3>
+          <div className="p-4 rounded-xl mb-4" style={{ background: '#f5f5f5' }}>
+            <h3 className="font-semibold text-sm mb-3 text-gray-700">{t('settings')}</h3>
             <div className="flex gap-4 justify-center flex-wrap">
-              <label className="text-sm text-gray-500 font-semibold flex items-center gap-2">
+              <label className="text-sm text-gray-600 flex items-center gap-2">
                 {t('pieceStyle')}:
                 <select 
-                  className="ml-1 p-2 rounded-xl border-2 border-pink-200 bg-white font-semibold text-gray-700 focus:border-pink-400 focus:outline-none transition-all" 
+                  className="ml-1 p-2 rounded-lg border border-gray-200 bg-white text-gray-700 focus:border-indigo-500 focus:outline-none" 
                   value={pieceStyle} 
                   onChange={e => setPieceStyle(e.target.value)}>
                   <option value="original">{t('styleOriginal')}</option>
@@ -831,44 +817,37 @@ export default function App() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 mb-5">
+          <div className="grid grid-cols-2 gap-3 mb-4">
             {PLAYER_CONFIGS.map((cfg, i) => (
               <button key={i}
-                className="p-5 rounded-2xl font-bold cursor-pointer transition-all duration-300 hover:scale-105"
+                className="p-4 rounded-xl font-semibold cursor-pointer transition-all duration-200"
                 style={{
-                  background: selectedConfig === cfg 
-                    ? 'linear-gradient(145deg, #FFE4EC, #FFF0E6)' 
-                    : 'white',
-                  border: selectedConfig === cfg 
-                    ? '3px solid #FF7B7B' 
-                    : '3px solid #E8E8E8',
-                  color: selectedConfig === cfg ? '#FF7B7B' : '#666',
-                  boxShadow: selectedConfig === cfg 
-                    ? '0 8px 24px -6px rgba(255, 123, 123, 0.35)' 
-                    : '0 4px 12px -4px rgba(0,0,0,0.06)',
+                  background: selectedConfig === cfg ? '#eef2ff' : '#fff',
+                  border: selectedConfig === cfg ? '2px solid #6366f1' : '1px solid #e5e5e5',
+                  color: selectedConfig === cfg ? '#6366f1' : '#525252',
                 }}
                 onClick={() => setSelectedConfig(cfg)}>
-                <span className="text-lg">{cfg.label}</span>
-                <br/><small className="font-semibold text-gray-400">{cfg.sub}</small>
+                <span className="text-base">{cfg.label}</span>
+                <br/><small className="text-gray-400 text-xs">{cfg.sub}</small>
               </button>
             ))}
           </div>
 
           {selectedConfig && (
-            <div className="p-5 rounded-2xl mb-5 animate-[pop-in_0.3s_ease-out]" style={{ background: '#FFF5F8', border: '2px solid #FFE4EC' }}>
-              <h3 className="font-bold text-sm mb-3 text-gray-600">{t('playerType')}</h3>
-              <div className="flex flex-wrap gap-4 justify-center">
+            <div className="p-4 rounded-xl mb-4" style={{ background: '#f5f5f5' }}>
+              <h3 className="font-semibold text-sm mb-3 text-gray-700">{t('playerType')}</h3>
+              <div className="flex flex-wrap gap-3 justify-center">
                 {selectedConfig.colors.map(color => {
                   const info = ci(color);
                   return (
-                    <label key={color} className="flex items-center gap-2 text-sm bg-white px-3 py-2 rounded-xl shadow-sm" style={{ border: `2px solid ${info.light}` }}>
-                      <span className="text-lg">{info.emoji}</span>
+                    <label key={color} className="flex items-center gap-2 text-sm bg-white px-3 py-2 rounded-lg" style={{ border: '1px solid #e5e5e5' }}>
+                      <span>{info.emoji}</span>
                       <select 
-                        className="p-1.5 rounded-lg border-0 bg-transparent text-xs font-semibold text-gray-600 focus:outline-none"
+                        className="p-1 rounded border-0 bg-transparent text-xs text-gray-600 focus:outline-none"
                         value={playerTypes[color]}
                         onChange={e => setPlayerTypes(prev => ({ ...prev, [color]: e.target.value }))}>
-                        <option value="human">👤 {t('human')}</option>
-                        <option value="ai">🤖 {t('ai')}</option>
+                        <option value="human">{t('human')}</option>
+                        <option value="ai">{t('ai')}</option>
                       </select>
                     </label>
                   );
@@ -878,15 +857,11 @@ export default function App() {
           )}
 
           <button
-            className={`py-4 px-12 rounded-full text-white text-xl font-extrabold transition-all duration-300
-              ${selectedConfig ? 'cursor-pointer hover:-translate-y-1.5 hover:shadow-2xl active:scale-95' : 'cursor-not-allowed opacity-50'}`}
+            className={`w-full py-3 rounded-xl text-white text-base font-semibold transition-all duration-200
+              ${selectedConfig ? 'cursor-pointer hover:opacity-90 active:scale-[0.98]' : 'cursor-not-allowed'}`}
             style={{
-              background: selectedConfig 
-                ? 'linear-gradient(135deg, #FF7B7B, #FFD166)' 
-                : '#E0E0E0',
-              boxShadow: selectedConfig 
-                ? '0 12px 32px -6px rgba(255, 123, 123, 0.5)' 
-                : 'none',
+              background: selectedConfig ? '#6366f1' : '#e5e5e5',
+              color: selectedConfig ? '#fff' : '#a3a3a3',
             }}
             disabled={!selectedConfig}
             onClick={startGame}>
@@ -902,35 +877,30 @@ export default function App() {
     const wi = ci(winner);
     return (
       <div className="fixed inset-0 flex items-center justify-center z-[2000]" 
-        style={{ background: 'linear-gradient(135deg, #FFE4EC 0%, #FFF0E6 50%, #FFFBF0 100%)' }}>
-        <div className="animate-[celebrate_0.6s_ease-in-out_3] p-10 max-w-lg text-center"
+        style={{ background: '#faf9f7' }}>
+        <div className="p-8 max-w-md w-full text-center"
           style={{
-            background: 'linear-gradient(145deg, #FFFFFF 0%, #FFF8FA 100%)',
-            borderRadius: '2.5rem',
-            border: `4px solid ${wi.main}`,
-            boxShadow: `0 24px 60px -12px ${wi.main}40, 0 12px 30px -8px rgba(255, 209, 102, 0.3)`,
+            background: '#fff',
+            borderRadius: '1rem',
+            border: `2px solid ${wi.main}`,
+            boxShadow: '0 1px 2px 0 rgba(0,0,0,0.05)',
           }}>
-          <h2 className="text-5xl font-extrabold mb-4"
-            style={{ 
-              background: `linear-gradient(135deg, ${wi.main}, #FFD166)`,
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}>{t('victory')}</h2>
-          <div className="text-7xl mb-4 animate-[float_2s_ease-in-out_infinite]">{wi.emoji}</div>
-          <p className="text-2xl font-extrabold mb-6" style={{ color: wi.main }}>
+          <h2 className="text-3xl font-bold mb-4" style={{ color: wi.main }}>{t('victory')}</h2>
+          <div className="text-6xl mb-4">{wi.emoji}</div>
+          <p className="text-xl font-semibold mb-6" style={{ color: wi.main }}>
             {wi.name} {t('playerWins')}
           </p>
 
-          <div className="rounded-2xl p-5 mb-6" style={{ background: '#FFF5F8', border: '2px solid #FFE4EC' }}>
-            <h3 className="font-bold mb-4 text-gray-600">{t('quizSummary')}</h3>
+          <div className="rounded-xl p-4 mb-6" style={{ background: '#f5f5f5' }}>
+            <h3 className="font-semibold mb-3 text-gray-700">{t('quizSummary')}</h3>
             <table className="w-full text-sm">
               <thead>
-                <tr style={{ borderBottom: '2px solid #FFE4EC' }}>
-                  <th className="p-2 text-gray-500 font-semibold">Player</th>
-                  <th className="p-2 text-emerald-500 font-semibold">Correct</th>
-                  <th className="p-2 text-rose-400 font-semibold">Wrong</th>
-                  <th className="p-2 text-gray-500 font-semibold">Total</th>
-                  <th className="p-2 text-gray-500 font-semibold">Accuracy</th>
+                <tr style={{ borderBottom: '1px solid #e5e5e5' }}>
+                  <th className="p-2 text-gray-500 text-left">Player</th>
+                  <th className="p-2 text-green-600 text-center">Correct</th>
+                  <th className="p-2 text-red-500 text-center">Wrong</th>
+                  <th className="p-2 text-gray-500 text-center">Total</th>
+                  <th className="p-2 text-gray-500 text-right">Accuracy</th>
                 </tr>
               </thead>
               <tbody>
@@ -940,12 +910,12 @@ export default function App() {
                   const acc = total > 0 ? Math.round((s.right / total) * 100) : 0;
                   const cInfo = ci(color);
                   return (
-                    <tr key={color} style={{ borderBottom: '1px solid #FFE4EC' }}>
-                      <td className="p-2 font-semibold" style={{ color: cInfo.main }}>{cInfo.emoji} {cInfo.name}</td>
-                      <td className="p-2 text-emerald-500 font-bold">{s.right}</td>
-                      <td className="p-2 text-rose-400 font-bold">{s.wrong}</td>
-                      <td className="p-2 text-gray-600">{total}</td>
-                      <td className="p-2 font-extrabold" style={{ color: acc >= 70 ? '#10B981' : acc >= 50 ? '#FFD166' : '#FF7B7B' }}>{acc}%</td>
+                    <tr key={color} style={{ borderBottom: '1px solid #e5e5e5' }}>
+                      <td className="p-2 text-left" style={{ color: cInfo.main }}>{cInfo.emoji} {cInfo.name}</td>
+                      <td className="p-2 text-green-600 text-center">{s.right}</td>
+                      <td className="p-2 text-red-500 text-center">{s.wrong}</td>
+                      <td className="p-2 text-gray-600 text-center">{total}</td>
+                      <td className="p-2 font-semibold text-right" style={{ color: acc >= 70 ? '#14b8a6' : acc >= 50 ? '#f59e0b' : '#ef4444' }}>{acc}%</td>
                     </tr>
                   );
                 })}
@@ -954,11 +924,8 @@ export default function App() {
           </div>
 
           <button
-            className="py-4 px-10 rounded-full text-white font-extrabold text-lg cursor-pointer hover:-translate-y-1.5 hover:shadow-2xl active:scale-95 transition-all duration-300"
-            style={{
-              background: 'linear-gradient(135deg, #FF7B7B, #FFD166)',
-              boxShadow: '0 12px 32px -6px rgba(255, 123, 123, 0.5)',
-            }}
+            className="w-full py-3 rounded-xl text-white font-semibold cursor-pointer hover:opacity-90 active:scale-[0.98] transition-all duration-200"
+            style={{ background: '#6366f1' }}
             onClick={() => { setPhase('select'); setSelectedConfig(null); }}>
             Play Again
           </button>
@@ -970,32 +937,26 @@ export default function App() {
   // ===== GAME SCREEN =====
   return (
     <div className="min-h-screen p-6 flex flex-col items-center font-sans"
-      style={{ background: 'linear-gradient(135deg, #FFE4EC 0%, #FFF0E6 50%, #FFFBF0 100%)' }}>
-      <h1 className="text-5xl font-extrabold mb-6"
-        style={{ 
-          background: 'linear-gradient(135deg, #FF7B7B, #FFD166)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          textShadow: '0 4px 20px rgba(255, 123, 123, 0.2)',
-        }}>{t('gameTitle')}</h1>
+      style={{ background: '#faf9f7' }}>
+      <h1 className="text-3xl font-bold mb-6 text-black">{t('gameTitle')}</h1>
 
-      <div className="grid gap-8 items-start justify-center" style={{ gridTemplateColumns: '200px 600px 200px' }}>
+      <div className="grid gap-6 items-start justify-center" style={{ gridTemplateColumns: '200px 600px 200px' }}>
         {/* Left panel */}
-        <div className="flex flex-col justify-between min-h-[600px] gap-6">
+        <div className="flex flex-col justify-between min-h-[600px] gap-4">
           <PlayerPanel color="yellow" />
           <PlayerPanel color="green" />
         </div>
 
         {/* Center: board + message */}
-        <div className="flex flex-col items-center gap-5">
+        <div className="flex flex-col items-center gap-4">
           <div className="relative" 
             style={{ 
               width: BOARD_SIZE, 
               height: BOARD_SIZE,
-              borderRadius: '1.5rem',
-              boxShadow: '0 20px 60px -12px rgba(255, 150, 180, 0.3), 0 8px 24px -8px rgba(0,0,0,0.1)',
+              borderRadius: '1rem',
+              boxShadow: '0 1px 2px 0 rgba(0,0,0,0.05)',
             }}>
-            <img src="/board.jpg" alt="board" className="w-[600px] h-[600px] rounded-3xl" style={{ border: '4px solid white' }} />
+            <img src="/board.jpg" alt="board" className="w-[600px] h-[600px] rounded-2xl" style={{ border: '1px solid #e5e5e5' }} />
             {activePlayers.map(color =>
               pieces[color].map((piece, idx) => {
                 const pos = getPiecePos(color, idx);
@@ -1003,47 +964,40 @@ export default function App() {
                 const info = ci(color);
                 return (
                   <div key={`${color}-${idx}`}
-                    className={`absolute w-11 h-11 rounded-full flex items-center justify-center text-xl font-bold text-white cursor-pointer z-10
-                      transition-all duration-500 ease-out
+                    className={`absolute w-10 h-10 rounded-full flex items-center justify-center text-lg font-semibold text-white cursor-pointer z-10
+                      transition-all duration-200
                       ${isSelectable ? 'animate-[pulse-piece_1s_infinite]' : ''}`}
                     style={{
                       left: pos.x, top: pos.y,
                       transform: 'translate(-50%, -50%)',
-                      background: piece.finished
-                        ? 'linear-gradient(135deg, #FFD166, #F5B830)'
-                        : `linear-gradient(145deg, ${info.light}, ${info.main})`,
-                      border: `3px solid ${piece.finished ? '#F5B830' : 'white'}`,
-                      textShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                      background: piece.finished ? '#f59e0b' : info.main,
+                      border: '2px solid white',
                       boxShadow: isSelectable 
-                        ? `0 0 20px 6px ${info.main}80, 0 4px 12px -2px ${info.main}60`
-                        : `0 4px 12px -2px ${info.main}40, 0 2px 6px rgba(0,0,0,0.1)`,
-                      fontSize: pieceStyle === 'animals' ? '22px' : '18px',
+                        ? `0 0 0 3px ${info.main}`
+                        : '0 1px 2px 0 rgba(0,0,0,0.05)',
+                      fontSize: pieceStyle === 'animals' ? '20px' : '16px',
                     }}
                     onClick={() => handlePieceClick(color, idx)}>
-                    {piece.finished ? '★' : (pieceStyle === 'animals' ? info.emoji : idx + 1)}
-                    {piece.finished && (
-                      <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold border-2 border-white"
-                        style={{ background: 'linear-gradient(135deg, #FF7B7B, #E85A5A)', color: 'white' }}>★</span>
-                    )}
+                    {piece.finished ? '✓' : (pieceStyle === 'animals' ? info.emoji : idx + 1)}
                   </div>
                 );
               })
             )}
           </div>
 
-          <div className="py-4 px-8 min-w-[320px] text-center font-bold text-gray-600"
+          <div className="py-3 px-6 min-w-[280px] text-center font-medium text-gray-700"
             style={{
-              background: 'linear-gradient(145deg, #FFFFFF 0%, #FFF8FA 100%)',
-              borderRadius: '9999px',
-              border: '3px solid #FFB8D0',
-              boxShadow: '0 8px 24px -6px rgba(255, 150, 180, 0.25)',
+              background: '#fff',
+              borderRadius: '1rem',
+              border: '1px solid #e5e5e5',
+              boxShadow: '0 1px 2px 0 rgba(0,0,0,0.05)',
             }}>
             {message}
           </div>
         </div>
 
         {/* Right panel */}
-        <div className="flex flex-col justify-between min-h-[600px] gap-6">
+        <div className="flex flex-col justify-between min-h-[600px] gap-4">
           <PlayerPanel color="blue" />
           <PlayerPanel color="red" />
         </div>
@@ -1052,91 +1006,72 @@ export default function App() {
       {/* Quiz Modal */}
       {quizModal && (
         <div className="fixed inset-0 flex items-center justify-center z-[3000]" 
-          style={{ background: 'rgba(255, 228, 236, 0.85)', backdropFilter: 'blur(8px)' }}>
-          <div className="animate-[pop-in_0.3s_ease-out] p-8 max-w-xl w-full mx-4"
+          style={{ background: 'rgba(0,0,0,0.5)' }}>
+          <div className="p-6 max-w-lg w-full mx-4"
             style={{
-              background: 'linear-gradient(145deg, #FFFFFF 0%, #FFF8FA 100%)',
-              borderRadius: '2rem',
-              border: '3px solid #FFB8D0',
-              boxShadow: '0 24px 60px -12px rgba(255, 150, 180, 0.35)',
+              background: '#fff',
+              borderRadius: '1rem',
+              border: '1px solid #e5e5e5',
+              boxShadow: '0 1px 2px 0 rgba(0,0,0,0.05)',
             }}>
             {/* Timer bar */}
-            <div className="w-full h-4 rounded-full mb-4 overflow-hidden" style={{ background: '#FFF0E6' }}>
+            <div className="w-full h-2 rounded-full mb-4 overflow-hidden" style={{ background: '#f5f5f5' }}>
               <div
                 className="h-full rounded-full transition-all duration-1000 ease-linear"
                 style={{ 
                   width: `${(quizModal.timeLeft / 15) * 100}%`,
-                  background: quizModal.timeLeft > 5 
-                    ? 'linear-gradient(90deg, #7BE8A0, #5AD17D)' 
-                    : quizModal.timeLeft > 2 
-                      ? 'linear-gradient(90deg, #FFD166, #F5B830)'
-                      : 'linear-gradient(90deg, #FF7B7B, #E85A5A)',
+                  background: quizModal.timeLeft > 5 ? '#14b8a6' : quizModal.timeLeft > 2 ? '#f59e0b' : '#ef4444',
                 }}
               />
             </div>
-            <div className="text-center text-sm font-bold mb-3 px-3 py-1 rounded-full inline-flex mx-auto"
-              style={{ 
-                background: quizModal.timeLeft > 5 ? '#E6FFF0' : quizModal.timeLeft > 2 ? '#FFF8E6' : '#FFE4EC',
-                color: quizModal.timeLeft > 5 ? '#5AD17D' : quizModal.timeLeft > 2 ? '#F5B830' : '#FF7B7B',
-                display: 'block',
-                width: 'fit-content',
-              }}>
+            <div className="text-center text-sm font-medium mb-4"
+              style={{ color: quizModal.timeLeft > 5 ? '#14b8a6' : quizModal.timeLeft > 2 ? '#f59e0b' : '#ef4444' }}>
               {quizModal.timeLeft}s
             </div>
 
-            <h3 className="text-lg font-bold text-gray-700 mb-6 text-center leading-relaxed">
+            <h3 className="text-base font-semibold text-gray-800 mb-5 text-center leading-relaxed">
               {quizModal.q}
             </h3>
 
-            <div className="grid grid-cols-1 gap-3">
+            <div className="grid grid-cols-1 gap-2">
               {quizModal.c.map((choice, i) => {
                 const isSelected = quizModal.selectedAnswer === i;
                 const isCorrect = quizModal.a === i;
                 const isResolved = quizModal.resolved;
                 
                 let btnStyle = {
-                  background: 'white',
-                  border: '3px solid #E8E8E8',
-                  color: '#555',
+                  background: '#fff',
+                  border: '1px solid #e5e5e5',
+                  color: '#525252',
                 };
                 
-                if (!isResolved) {
+                if (isResolved && isCorrect) {
                   btnStyle = {
-                    ...btnStyle,
+                    background: '#f0fdfa',
+                    border: '2px solid #14b8a6',
+                    color: '#0d9488',
                   };
-                } else if (isCorrect) {
+                } else if (isResolved && isSelected && !isCorrect) {
                   btnStyle = {
-                    background: 'linear-gradient(145deg, #E6FFF0, #D0F5E0)',
-                    border: '3px solid #7BE8A0',
-                    color: '#2D8A4E',
-                  };
-                } else if (isSelected && !isCorrect) {
-                  btnStyle = {
-                    background: 'linear-gradient(145deg, #FFE4EC, #FFD0DC)',
-                    border: '3px solid #FF7B7B',
-                    color: '#C94A4A',
+                    background: '#fef2f2',
+                    border: '2px solid #ef4444',
+                    color: '#dc2626',
                   };
                 }
 
                 return (
                   <button key={i}
-                    className={`p-4 rounded-2xl text-left font-semibold transition-all duration-300 text-sm
-                      ${isResolved ? 'cursor-default' : 'cursor-pointer hover:scale-[1.02] hover:-translate-y-0.5'}`}
-                    style={{
-                      ...btnStyle,
-                      boxShadow: isResolved 
-                        ? (isCorrect ? '0 4px 12px -2px rgba(123, 232, 160, 0.4)' : (isSelected ? '0 4px 12px -2px rgba(255, 123, 123, 0.4)' : 'none'))
-                        : '0 4px 12px -4px rgba(0,0,0,0.08)',
-                    }}
+                    className={`p-3 rounded-xl text-left font-medium transition-all duration-200 text-sm
+                      ${isResolved ? 'cursor-default' : 'cursor-pointer hover:border-indigo-500'}`}
+                    style={btnStyle}
                     disabled={isResolved || playerTypesRef.current[getCurrentColor()] === 'ai'}
                     onClick={() => humanQuizAnswer(i)}>
-                    <span className="font-bold mr-2 px-2 py-0.5 rounded-lg text-xs" 
-                      style={{ background: '#FFF0E6', color: '#F5B830' }}>
-                      {String.fromCharCode(65 + i)}
+                    <span className="font-semibold mr-2 text-gray-400">
+                      {String.fromCharCode(65 + i)}.
                     </span>
                     {choice}
-                    {isResolved && isCorrect && <span className="ml-2 float-right text-lg">✓</span>}
-                    {isResolved && isSelected && !isCorrect && <span className="ml-2 float-right text-lg">✗</span>}
+                    {isResolved && isCorrect && <span className="ml-2 float-right">✓</span>}
+                    {isResolved && isSelected && !isCorrect && <span className="ml-2 float-right">✗</span>}
                   </button>
                 );
               })}
